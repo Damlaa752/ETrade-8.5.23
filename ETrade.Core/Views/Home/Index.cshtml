@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>E-Ticaret Sitesi Demo</h1>
+<p class="col-md-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In iure illo nostrum, voluptatem ipsam vitae sint laudantium pariatur dolorum mollitia quod quaerat provident nesciunt exercitationem unde ducimus itaque et ipsum aperiam cupiditate! Deserunt sint provident dignissimos laboriosam aperiam, beatae quam ad officiis iusto, vitae sit saepe repellat adipisci, eum incidunt!</p>
+<div id="carouselExampleIndicators" class="carousel slide my-4">
+    <div class="carousel-indicators ">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button " data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner rounded-3">
+        <div class="carousel-item active">
+            <img src="/img/slider1.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/img/slider2.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/img/slider3.png" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="row row-cols-2 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card h-100" style="height: 450px;">
+            <img src="~/img/kamera.jpeg" class="card-img-top" style="height : 40%" alt="nikon">
+            <div class="card-body" style="height: 40%;">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Details" asp-route-id="1" class="btn btn-primary btn-sm float-end">Product Detail</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100" style="height: 450px;">
+            <img src="img/laptop.jpeg" class="card-img-top" style="height : 40%" alt="monster">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Details" class="btn btn-primary btn-sm float-end">Product Detail</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100" style="height: 450px;">
+            <img src="img/telefon.jpeg" class="card-img-top px-4" style="height : 40%" alt="iphone">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Details" class="btn btn-primary btn-sm float-end">Product Detail</a>
+            </div>
+        </div>
+    </div>
+</div>
