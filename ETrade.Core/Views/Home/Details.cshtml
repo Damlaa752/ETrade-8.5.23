@@ -1,4 +1,4 @@
-﻿
+﻿@model Product
 @{
     ViewData["Title"] = "Details";
 }
@@ -6,13 +6,13 @@
 <div class="card mb-3">
     <div class="row">
         <div class="col-md-4">
-            <img src="img/telefon.jpeg" class="card-img rounded">
+            <img src="~/img/@Model.Image" class="card-img rounded" alt="@Model.Name">
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">Iphone 14 Pro Max</h5>
-                <span class="badge text-primary">Stock : 16</span>
-                <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro obcaecati explicabo hic earum neque. Qui, nostrum deleniti hic, ab porro quo inventore fugiat nihil corrupti tempora, obcaecati eaque suscipit! Perferendis dignissimos architecto, vero exercitationem iste delectus maxime nam dolore aliquid reiciendis explicabo non veritatis tempora corporis tenetur consequuntur natus asperiores!</p>
+                <h5 class="card-title">@Model.Name</h5>
+                <span class="badge text-primary">Stock : @Model.Stock</span>
+                <p class="lead">@Model.Description</p>
                 <div class="col-md-3 text-warning">
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
@@ -22,9 +22,7 @@
                     <span class="badge text-success">60</span>
                 </div>
                 <div class="shadow px-3 my-3 bg-body-tertiary rounded col-md-3">
-                    <span class="badge text-danger fs-6">
-                        40000 ₺
-                    </span>
+                    <span class="badge text-danger fs-6">@Model.Price.ToString("C")</span>
                     <br>
                     <a href="" class="btn btn-primary ms-2 mb-2">
                         <i class="bi bi-cart-plus-fill text-warning"></i>

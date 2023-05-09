@@ -51,6 +51,7 @@ namespace ETrade.Core.Controllers
             var product = productDAL.Get(id);
             return View(product);
         }
+        [HttpPost]
         public IActionResult Edit(Product product)
         {
             if (!ModelState.IsValid)
