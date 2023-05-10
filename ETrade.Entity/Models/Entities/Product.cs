@@ -24,7 +24,7 @@ namespace ETrade.Entity.Models.Entities
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public string Image { get; set; }
+        public string? Image { get; set; }
         public int Stock { get; set; }
         [Range(0,double.MaxValue)]
         public decimal Price { get; set; }
