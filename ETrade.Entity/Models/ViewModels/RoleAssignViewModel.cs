@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ETrade.Entity.Models.ViewModels
 {
-    public class SignInViewModel
+    public class RoleAssignViewModel
     {
-        public string UsernameOrEmail { get; set; }
-        public string Password { get; set; }
-        public bool RememberMe { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool HasAssign { get; set; }
     }
 }

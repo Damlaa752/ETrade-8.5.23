@@ -61,13 +61,18 @@ namespace ETrade.Core.Controllers
             }
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password,true,true);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password,model.RememberMe,true);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
             }
             return View(model);
+        }
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
