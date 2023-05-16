@@ -1,10 +1,12 @@
 ﻿using ETrade.DAL.Abstract;
 using ETrade.DAL.Context;
 using ETrade.Entity.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETrade.Core.Controllers
 {
+    //[Authorize(Roles ="Admin")]//en düşük yetkilendirme kullanıcı girişi yapılması
     public class CategoryController : Controller
     {
         private readonly ICategoryDAL categoryDAL;
@@ -15,6 +17,7 @@ namespace ETrade.Core.Controllers
         }
         //Get
         public IActionResult Index()=> View(categoryDAL.GetAll());
+       // [Authorize(Roles ="Admin, Create")]
         public IActionResult Create() => View();
         [HttpPost]
         public IActionResult Create(Category category) 
@@ -26,6 +29,7 @@ namespace ETrade.Core.Controllers
             }
           return View(category);
         }
+       // [Authorize(Roles = "Admin, Edit")]
         public ActionResult Edit(int id) => View(categoryDAL.Get(id));
         [HttpPost]
         public IActionResult Edit(Category category)
@@ -41,6 +45,7 @@ namespace ETrade.Core.Controllers
             return View(category);
         }
         public IActionResult Details(int id)=> View(categoryDAL.Get(id));
+       // [Authorize(Roles = "Admin, Delete")]
         public IActionResult Delete(int id)=> View(categoryDAL.Get(id));
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(Category category)

@@ -1,10 +1,13 @@
 ﻿using ETrade.Entity.Models.Identity;
 using ETrade.Entity.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace ETrade.Core.Controllers
 {
+    //[Authorize(Roles ="Admin")]
     public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -20,6 +23,7 @@ namespace ETrade.Core.Controllers
         {
             return View(_userManager.Users.ToList());
         }
+        
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _userManager.FindByIdAsync($"{id}");
@@ -28,6 +32,7 @@ namespace ETrade.Core.Controllers
                 return RedirectToAction("Index");
             return NotFound("id ye sahip kullanıcı bulunamadı.");
         }
+        
         public async Task<IActionResult> RoleAssign (int id)
         {
             var user = await _userManager.FindByIdAsync($"{id}");

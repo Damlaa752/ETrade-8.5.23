@@ -1,9 +1,12 @@
 ﻿using ETrade.Entity.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace ETrade.Core.Controllers
 {
+    //[Authorize]
     public class RoleController : Controller
     {
         private readonly RoleManager<Role> _roleManager;
@@ -18,6 +21,7 @@ namespace ETrade.Core.Controllers
             var roles = _roleManager.Roles.ToList();
             return View(roles);
         }
+       //[Authorize(Roles = "Admin,Create")]
         public IActionResult Create()=> View();
         [HttpPost]
         public async Task<IActionResult> Create(Role model)
@@ -31,20 +35,25 @@ namespace ETrade.Core.Controllers
             }
             return View(role);
         }
+        //[Authorize(Roles = "Admin,Edit")]
         public async Task<IActionResult> Edit(int id)
         {
             var role = await _roleManager.FindByIdAsync($"{id}");
             return View(role);  
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(Role role)
+        public async Task<IActionResult> Edit(Role model)
         {
+            var role = await _roleManager.FindByIdAsync($"{model.Id}");
+            role.Name = model.Name;
+            role.NormalizedName = model.NormalizedName;
             var result = await _roleManager.UpdateAsync(role);
             if (result.Succeeded)
                 return RedirectToAction("Index");
-            return View(role);  
+            return View(model);  
 
         }
+       // [Authorize(Roles = "Admin,Delete")]
         public async Task<IActionResult> Delete(int id)
         {
             var role = await _roleManager.FindByIdAsync($"{id}");

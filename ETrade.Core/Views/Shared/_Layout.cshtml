@@ -24,13 +24,26 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
+                        @if(User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="~/">Admin Paneli </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="~/">Home</a>
                         </li>
+                        }
+                        
+
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="List">List</a><!-- href="~/List"-->
                         </li>
-                        <li class="nav-item">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="Category">Categories</a><!-- href="~/List"-->
                         </li>
                         <li class="nav-item">
@@ -42,21 +55,23 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="User">Users</a><!-- href="~/List"-->
                         </li>
+                        }
+                        
                         <li class="nav-item dropdown">
                             @if (User.Identity.Name != null)
                             {
                                 <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Options
+                                    Profile
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="SignIn">@User.Identity.Name</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile" asp-route-name="@User.Identity.Name">@User.Identity.Name</a></li>
                                     <li><a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Sign Out</a></li>
                                 </ul>
                             }
                             else
                             {
                                 <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Options
+                                    Profile
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" asp-controller="Account" asp-action="SignIn">Sign In</a></li>

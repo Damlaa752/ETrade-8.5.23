@@ -31,8 +31,8 @@ namespace ETrade.Core.Controllers
                 Name = model.Name,
                 Surname = model.Surname,
                 Email = model.Email,
-                Password=model.Password,
-                PhoneNumber = model.Phone,      
+                Password = model.Password,
+                PhoneNumber = model.Phone,
             };
             var result = await _userManager.CreateAsync(user, user.Password);
             if (result.Succeeded)
@@ -48,7 +48,7 @@ namespace ETrade.Core.Controllers
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
-        public async Task<IActionResult> SignIn (SignInViewModel model)
+        public async Task<IActionResult> SignIn(SignInViewModel model)
         {
             User user;
             if (model.UsernameOrEmail.Contains("@"))
@@ -61,7 +61,7 @@ namespace ETrade.Core.Controllers
             }
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password,model.RememberMe,true);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -73,6 +73,50 @@ namespace ETrade.Core.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> Profile(string name)
+        {
+            var user = await _userManager.FindByNameAsync(name);
+            return View(user);
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var user = await _userManager.FindByIdAsync($"{id}");
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignOutAsync();   
+                    return RedirectToAction("Index", "Home");
+                }
+                   
+            }
+            return RedirectToAction("Profile");
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var user = await _userManager.FindByIdAsync($"{id}");
+            return View(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(User model)
+        {
+            var user = await _userManager.FindByNameAsync($"{model.UserName}");
+            if (user == null)
+            {
+                user = new User(model.UserName)
+                {
+                Name = model.Name,
+                Surname = model.Surname,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
+            };
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                    return RedirectToAction("Profile");
+            }
+            return View(model);
         }
     }
 }

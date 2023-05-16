@@ -3,6 +3,7 @@ using ETrade.DAL.Concrete;
 using ETrade.DAL.Context;
 using ETrade.Entity.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 

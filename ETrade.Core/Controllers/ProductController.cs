@@ -3,12 +3,14 @@ using ETrade.DAL.Abstract;
 using ETrade.DAL.Concrete;
 using ETrade.DAL.Context;
 using ETrade.Entity.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace ETrade.Core.Controllers
 {
+  //  [Authorize]
     public class ProductController : Controller
     {
         private readonly ETradeDbContext db;
@@ -28,6 +30,7 @@ namespace ETrade.Core.Controllers
             var products = db.Products.Include(p=>p.Category);
             return View(products);
         }
+        //[Authorize(Roles ="Admin,Create")]
         public IActionResult Create()
             {
             ViewData["CategoryId"]=new SelectList(categoryDAL.GetAll(), "Id", "Name");
@@ -49,6 +52,7 @@ namespace ETrade.Core.Controllers
             }
             return View();
         }
+       // [Authorize(Roles = "Admin,Edit")]
         public IActionResult Edit(int id)
         {
             ViewData["CategoryId"] = new SelectList(categoryDAL.GetAll(), "Id", "Name");
@@ -77,6 +81,7 @@ namespace ETrade.Core.Controllers
             product.Category = categoryDAL.Get(product.CategoryId);
             return View(product);   
         }
+        //[Authorize(Roles = "Admin,Delete")]
         public IActionResult Delete(int id)
         {
             var product = productDAL.Get(id);
