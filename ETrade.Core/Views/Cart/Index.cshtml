@@ -28,8 +28,8 @@ else
                 <tr>
                     <td>@item.Product.Name</td>
                     <td>@item.Product.Price</td>
-                    <td>@item.Quatity</td>
-                    <td>@((item.Product.Price * item.Quatity).ToString("c"))</td>
+                    <td>@item.Quantity</td>
+                    <td>@((item.Product.Price * item.Quantity).ToString("c"))</td>
                     <td>
                         <a class="btn btn-danger" asp-action="Remove" asp-route-id="@item.Product.Id">Remove</a>
                     </td>

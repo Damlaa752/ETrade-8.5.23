@@ -90,7 +90,7 @@
                         </li>
                     </ul>
                     <form asp-controller="Home" asp-action ="Search"  class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
@@ -133,10 +133,29 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+
         $(document).ready(function () {
             $('#dataTable').DataTable();
         });
+
+        function addToCart(id)
+        {
+            var quantity = $('#quantity').val();
+            $.ajax({
+                url : '/Cart/AddToCart',
+                type : 'POST',
+                data : {Id:id,Q:quantity},
+                success : function(response){
+                    //alert('ürün sepete eklendi')
+                    location.reload(); //f5 yapıyor sepetteki sayıyı değiştiriyor.
+                },
+                eror : function(xhr, status, error){
+                    alert('Hata olustu'+error) 
+                }
+            });
+        }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

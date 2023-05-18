@@ -1,5 +1,6 @@
 ﻿using ETrade.Core.Models;
 using ETrade.DAL.Abstract;
+using ETrade.Entity.Models.Entities;
 using ETrade.Entity.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -40,11 +41,53 @@ namespace ETrade.Core.Controllers
         {
             return View(productDAL.Get(id));
         }
+        static string search;
+        public IActionResult Search(string query, int id)
+        {
+            if (query != null)
+                search = query;
+            var model = new ListViewModel();
+            var products = new List<Product>();
+            try
+            {
+                products = productDAL.GetAll(p => p.Name.Contains(search) || p.Description.Contains(search));
+                if (query != null)
+                {
+                    if (id != 0)
+                        products = products.Where(p => p.CategoryId == id).ToList();
+
+                }
+                else
+                {
+                    if (id != 0)
+                        products = products.Where(p => p.CategoryId == id).ToList();
+                }
+                model = new ListViewModel()
+                {
+                    Categories = categoryDAL.GetAll(),
+                    Products = products
+                };
+
+            }
+            catch (Exception)
+            {
+
+                id = 0;
+                model = new ListViewModel()
+                {
+                    Categories = categoryDAL.GetAll(),
+                    Products = products
+                };
+            }
+
+            ViewBag.Id = id;
+
+            return View(model);
+        }
         public IActionResult Privacy()
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

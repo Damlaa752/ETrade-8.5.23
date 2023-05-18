@@ -20,14 +20,14 @@ namespace ETrade.Core.Controllers
             var cart = SessionHelper.GetFromJson<List<CartItem>>(HttpContext.Session, "cart");
             if (cart != null)
             {
-                ViewBag.Total = cart.Sum(i => i.Product.Price * i.Quatity).ToString("c");
+                ViewBag.Total = cart.Sum(i => i.Product.Price * i.Quantity).ToString("c");
                 SessionHelper.Count = cart.Count;
                 //SessionHelper.Count = cart.Sum(i=>i.Quatity);
             }
             return View(cart);
         }
         [HttpPost]
-        public IActionResult Buy(int id, string quantity)
+        public IActionResult Buy(int id, int quantity)
         {
             if (SessionHelper.GetFromJson<List<CartItem>>(HttpContext.Session, "cart") == null)
             {
@@ -35,7 +35,7 @@ namespace ETrade.Core.Controllers
                 cart.Add(new CartItem()
                 {
                     Product = _productDAL.Get(id),
-                    Quatity = Convert.ToInt32(quantity)
+                    Quantity = quantity
                 });
                 SessionHelper.SetAsJson(HttpContext.Session, "cart", cart);
             }
@@ -48,14 +48,55 @@ namespace ETrade.Core.Controllers
                     cart.Add(new CartItem()
                     {
                         Product = _productDAL.Get(id),
-                        Quatity = Convert.ToInt32(quantity)
+                        Quantity = quantity
                     });
                 }
                 else
-                    cart[index].Quatity += Convert.ToInt32(quantity);
+                    cart[index].Quantity += quantity;
                 SessionHelper.SetAsJson(HttpContext.Session, "cart", cart);
             }
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult AddToCart(int Id, int Q)
+        {
+            if (SessionHelper.GetFromJson<List<CartItem>>(HttpContext.Session, "cart") == null)
+            {
+                var cart = new List<CartItem>();
+                cart.Add(new CartItem()
+                {
+                    Product = _productDAL.Get(Id),
+                    Quantity = Q
+                });
+                SessionHelper.SetAsJson(HttpContext.Session, "cart", cart);
+                SessionHelper.Count=cart.Count;
+            }
+            else
+            {
+                var cart = SessionHelper.GetFromJson<List<CartItem>>(HttpContext.Session, "cart");
+                int index = isIndex(cart, Id);
+                if (index == -1)
+                {
+                    cart.Add(new CartItem()
+                    {
+                        Product = _productDAL.Get(Id),
+                        Quantity = Q
+                    });
+                }
+                else
+                    cart[index].Quantity += Q;
+                SessionHelper.SetAsJson(HttpContext.Session, "cart", cart);
+                SessionHelper.Count = cart.Count;
+            }
+            return Ok();
+        }
+        public IActionResult Remove(int id)
+        {
+            var cart = SessionHelper.GetFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            int index = isIndex(cart,id);
+            cart.RemoveAt(index);
+            SessionHelper.SetAsJson(HttpContext.Session,"cart",cart);
+            return RedirectToAction("index");
         }
         private int isIndex(List<CartItem> cart, int id)
         {
