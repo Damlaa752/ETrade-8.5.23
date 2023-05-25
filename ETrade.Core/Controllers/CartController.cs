@@ -1,5 +1,6 @@
 ﻿using ETrade.Core.Models.Helper;
 using ETrade.DAL.Abstract;
+using ETrade.Entity.Models.Entities;
 using ETrade.Entity.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -106,6 +107,47 @@ namespace ETrade.Core.Controllers
                     return i;
             }
             return -1;
+        }
+        public IActionResult CheckOut()
+        {
+            var cart = SessionHelper.GetFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            if (cart == null)
+            {
+                ModelState.AddModelError("NullCartError", "Sepetinizde hiç bir ürün bulunmamaktadır.");
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CheckOut(ShippingDetail model)
+        {
+            var cart = SessionHelper.GetFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            if (ModelState.IsValid)
+            {
+                SaveOrder(cart, model);
+                cart.Clear();
+                SessionHelper.Count = 0;
+                return View("Completed");
+            }
+            return View(model);
+        }
+
+        private void SaveOrder(List<CartItem>? cart, ShippingDetail model)
+        {
+           var order= new Order(OrderState.Waiting, DateTime.Now, cart.Sum(c=>c.Product.Price*c.Quantity),model.Username, model.AddressTitle, model.Address, model.City);
+            order.OrderLines = new List<OrderLine>();
+            foreach (var line in cart)
+            {
+                var orderLine = new OrderLine()
+                {
+                    Quantity = line.Quantity,
+                    Price = line.Quantity*line.Product.Price,
+                    ProductId = line.Product.Id
+                };
+               order.OrderLines.Add(orderLine);
+            }
+            _orderDAL.Add(order);
         }
     }
 }
