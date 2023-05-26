@@ -22,6 +22,9 @@ namespace ETrade.Core.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole("Admin"))
+                return View("~/Areas/Admin/Views/Home/Index.cshtml");
+                //return Redirect("~/Admin/Home"); // 2. yöntem
             return View(productDAL.GetAll(p=>p.IsHome));
         }
         public IActionResult List(int? id) //id = category id

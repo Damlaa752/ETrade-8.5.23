@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ETradeDbContext>();
 builder.Services.AddScoped<ICategoryDAL,CategoryDAL>();
 builder.Services.AddScoped<IProductDAL,ProductDAL>();
 builder.Services.AddScoped<IOrderDAL,OrderDAL>();
+builder.Services.AddScoped<IOrderlineDAL,OrderlineDAL>();
 
 //AddIdentity 
 builder.Services.AddIdentity<User,Role>(options =>
@@ -72,8 +73,17 @@ app.UseRouting();
 app.UseAuthentication();//giriþ kontrölü
 app.UseAuthorization();//yetkilendirme kontrolü
 
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+}); //useEndpoint kýsmý yazarsan önce ya da sonra yazmanýn bir önemi yok.
 
 app.Run();

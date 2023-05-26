@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ETrade.Core.Controllers
 {
-    //[Authorize(Roles ="Admin")]//en düşük yetkilendirme kullanıcı girişi yapılması
+    [Authorize(Roles ="Admin")]//en düşük yetkilendirme kullanıcı girişi yapılması
     public class CategoryController : Controller
     {
         private readonly ICategoryDAL categoryDAL;

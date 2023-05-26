@@ -28,7 +28,7 @@
                         @if(User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="~/">Admin Paneli </a>
+                                <a class="nav-link" aria-current="page" href="~/Admin/Home">Admin Paneli </a>
                             </li>
                         }
                         else
@@ -42,25 +42,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="List">List</a><!-- href="~/List"-->
                         </li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Category">Categories</a><!-- href="~/List"-->
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Product">Products</a><!-- href="~/List"-->
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Role">Roles</a><!-- href="~/List"-->
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="User">Users</a><!-- href="~/List"-->
-                        </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="Index" asp-controller="Order">Orders</a><!-- href="~/List"-->
-                            </li>
-                        }
-                        
+                       
                         <li class="nav-item dropdown">
                             @if (User.Identity.Name != null)
                             {

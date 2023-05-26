@@ -11,10 +11,14 @@ namespace ETrade.Core.Controllers
     {
 
         private readonly IOrderDAL _orderDAL;
+        private readonly IOrderlineDAL _orderlineDAL;
+        private readonly IProductDAL _productDAL;
 
-        public OrderController(IOrderDAL orderDAL)
+        public OrderController(IOrderDAL orderDAL, IOrderlineDAL orderlineDAL, IProductDAL productDAL)
         {
             _orderDAL = orderDAL;
+            _orderlineDAL = orderlineDAL;
+            _productDAL = productDAL;
         }
 
         public IActionResult Index()
@@ -24,7 +28,10 @@ namespace ETrade.Core.Controllers
         public IActionResult Details(int id)
         {
             var order = _orderDAL.Get(id);
-            //orderlinedal yazılmalı
+            foreach (var item in order.OrderLines)
+            {
+                item.Product = _productDAL.Get(item.ProductId);
+            }
             return View(order);
         }
         public IActionResult Delete(int id)
@@ -44,7 +51,7 @@ namespace ETrade.Core.Controllers
             var model = new OrderStateViewModel()
             {
                 OrderId = order.Id,
-                IsCompleted = false
+                IsCompleted = orderState
             };
             return View(model);
         }
