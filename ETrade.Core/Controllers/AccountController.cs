@@ -2,6 +2,7 @@
 using ETrade.Entity.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ETrade.Core.Controllers
 {
@@ -118,6 +119,53 @@ namespace ETrade.Core.Controllers
             }
             return View(model);
         }
+        public IActionResult ExternalLogin (string provider, string returnUrl = null)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new {ReturnUrl=returnUrl});
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+        public async Task<IActionResult> ExternalLoginCallbackAsync(string returnUrl = null, string remoteError=null)
+        {
+            if (remoteError != null)
+                //Hata olduğunda
+                return RedirectToAction("Login");
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+                //google ile giriş bilgisi alınamadı.
+                return RedirectToAction("Login");
+
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent : true, bypassTwoFactor: true);
+            if (signInResult.Succeeded)
+                return RedirectToLocal(returnUrl);
+            else if (signInResult.IsLockedOut)
+                return RedirectToAction("SignOut");
+            else
+            {
+                // Kullanıcı google ile kayıt olmadıysa 
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var user = new User {UserName = email, Email = email, Name="user", Surname="user"};  
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: true);
+                        return RedirectToLocal(returnUrl);
+                    }
+                  
+                }
+            return RedirectToAction("Login");
+        }
+    }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+            else 
+                return RedirectToAction("Index", "Home");
+        }
     }
 }
-

@@ -13,11 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETrade.Core", "ETrade.Core\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{69052DDC-1C2B-44A7-8FD8-D7B2FE1C3BA8}"
 	ProjectSection(SolutionItems) = preProject
+		ReadMe-GoogleLogin.txt = ReadMe-GoogleLogin.txt
 		ReadMe-Identity.txt = ReadMe-Identity.txt
 		ReadMe-Session.txt = ReadMe-Session.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETrade.WebAPI", "ETrade.WebAPI\ETrade.WebAPI.csproj", "{E5439EBF-5369-4AEF-9D03-B6F89B8BF2C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETrade.WebAPI", "ETrade.WebAPI\ETrade.WebAPI.csproj", "{E5439EBF-5369-4AEF-9D03-B6F89B8BF2C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

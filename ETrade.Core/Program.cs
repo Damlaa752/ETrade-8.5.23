@@ -17,6 +17,12 @@ builder.Services.AddScoped<IProductDAL,ProductDAL>();
 builder.Services.AddScoped<IOrderDAL,OrderDAL>();
 builder.Services.AddScoped<IOrderlineDAL,OrderlineDAL>();
 
+//AddAuthentication.AddGoogle
+builder.Services.AddAuthentication().AddGoogle(options => {
+    options.ClientId = "1034829810646-caf5msofnp83v3ikrinlvgap6b8sm65g.apps.googleusercontent.com";
+    options.ClientSecret = "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"; // Google Apiden aldýk adýmlar readMe -de yazýyor.
+});//appsettingsde yazdýklarýmýzdan sonra bunu yazmamýz lazým.
+
 //AddIdentity 
 builder.Services.AddIdentity<User,Role>(options =>
 {
@@ -45,7 +51,7 @@ builder.Services.ConfigureApplicationCookie(options =>
         HttpOnly= false,
         SameSite =SameSiteMode.Lax,
         SecurePolicy =CookieSecurePolicy.Always
-    };
+    };  
 });
 
 //AddSession
